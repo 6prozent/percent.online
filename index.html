@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>6prozent</title>
+    <title>Background Image with ASCII Art and Custom Audio Player</title>
     <style>
         body, html {
             height: 100%;
@@ -20,23 +20,44 @@
             flex-direction: column;
         }
         .container {
-            background-color: rgba(0, 0, 0, 0.5); 
+            background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
             padding: 20px;
             border-radius: 10px;
             margin: 10px;
         }
         .thin-container {
-            background-color: rgba(0, 0, 0, 0.5); 
+            background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
             padding: 10px;
             border-radius: 10px;
             margin: 10px;
-            width: 50%; 
+            width: 50%; /* Make it thinner */
         }
         pre {
             margin: 0;
         }
         .small-text {
-            font-size: 0.8em; 
+            font-size: 0.8em; /* Make the text smaller */
+        }
+        .audio-player {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .audio-player button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        .audio-player button:focus {
+            outline: none;
+        }
+        .audio-player button:disabled {
+            color: gray;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -58,9 +79,58 @@ WM.   ,M9 MM   ,AP  MM    YA.   ,A9  AMV  ,YM.    ,  MM    MM  MM
     </div>
     <div class="thin-container">
         <pre class="small-text">
-Discord : 6prozent
-Roblox : GeneralDeg
+            3 years of RLua Experience
+            owner of percent.net
         </pre>
     </div>
+    <div class="audio-player">
+        <button id="play-pause-btn">&#10074;&#10074;</button>
+        <audio id="audio" autoplay>
+            <source src="https://r2.e-z.host/555c37b7-d8f8-4562-903b-50d8074998e3/j7kkzgyt.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('audio');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+
+            audio.volume = 0.5;  // Set the volume to 50%
+
+            function playAudio() {
+                if (audio.paused) {
+                    audio.play().catch(() => {
+                        playPauseBtn.innerHTML = '&#9658;';  // Show play button if audio fails to play
+                    });
+                }
+            }
+
+            playPauseBtn.addEventListener('click', function() {
+                if (audio.paused) {
+                    audio.play();
+                    playPauseBtn.innerHTML = '&#10074;&#10074;';  // Change button to 'Pause'
+                } else {
+                    audio.pause();
+                    playPauseBtn.innerHTML = '&#9658;';  // Change button to 'Play'
+                }
+            });
+
+            audio.addEventListener('play', function() {
+                playPauseBtn.innerHTML = '&#10074;&#10074;';  // Change button to 'Pause'
+            });
+
+            audio.addEventListener('pause', function() {
+                playPauseBtn.innerHTML = '&#9658;';  // Change button to 'Play'
+            });
+
+            // Attempt to play audio when page loads
+            playAudio();
+
+            // Fallback to user interaction
+            document.body.addEventListener('click', function() {
+                playAudio();
+            }, { once: true });  // Listen only once for user interaction
+        });
+    </script>
 </body>
 </html>
